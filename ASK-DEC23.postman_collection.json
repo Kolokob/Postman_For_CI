@@ -1,0 +1,1093 @@
+{
+	"info": {
+		"_postman_id": "8c0007a9-3550-4f2f-a3ad-d5fb69b874b9",
+		"name": "ASK-DEC23",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "27999825"
+	},
+	"item": [
+		{
+			"name": "Qiuz API (Teacher only)",
+			"item": [
+				{
+					"name": "Sign in as Teacher",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseData = pm.response.json();",
+									"",
+									"// Извлекаем токен из ответа",
+									"var token = responseData.token;",
+									"",
+									"// Устанавливаем переменную окружения \"token\" с полученным значением",
+									"pm.environment.set(\"tokenTeacher\", token);",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{tokenTeacher}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"gilson861@giulieano.xyz\",\n  \"password\": \"eXxnX53YDVbCnBW\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/sign-in"
+					},
+					"response": []
+				},
+				{
+					"name": "Get all quizzes",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{tokenTeacher}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{baseUrl}}/quizzes"
+					},
+					"response": []
+				},
+				{
+					"name": "Create new quiz",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let quizNumber = pm.response.json()['id']",
+									"console.log(quizNumber)",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"let responseData = pm.response.json();",
+									"",
+									"let id = responseData.id;",
+									"",
+									"pm.environment.set(\"quizToDelete\", id);",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{tokenTeacher}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"SASA BIBA\",\n  \"totalScore\": 20,\n  \"passingPercentage\": 80,\n  \"showStopperQuestion\": 2,\n  \"questions\": [\n    {\n      \"type\": \"TEXTUAL\",\n      \"question\": \"What is the capital of France?\",\n      \"score\": 4\n    },\n    {\n      \"type\": \"SINGLE_CHOICE\",\n      \"question\": \"Who wrote 'Romeo and Juliet'?\",\n      \"score\": 8,\n      \"answer\": 3,\n      \"hasOtherOption\": false,\n      \"options\": [\n        \"Charles Dickens\",\n        \"Jane Austen\",\n        \"Mark Twain\",\n        \"William Shakespeare\"\n      ]\n    },\n    {\n      \"type\": \"MULTIPLE_CHOICE\",\n      \"question\": \"Which elements are gases at room temperature?\",\n      \"score\": 8,\n      \"answers\": [\n        0,\n        2\n      ],\n      \"hasOtherOption\": true,\n      \"options\": [\n        \"Hydrogen\",\n        \"Iron\",\n        \"Oxygen\",\n        \"Carbon\"\n      ]\n    }\n  ]\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/quiz"
+					},
+					"response": []
+				},
+				{
+					"name": "Update quiz",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{tokenTeacher}}"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"General Knowledge Quiz\",\n  \"totalScore\": 20,\n  \"passingPercentage\": 80,\n  \"showStopperQuestion\": 2,\n  \"questions\": [\n    {\n      \"type\": \"TEXTUAL\",\n      \"question\": \"What is the capital of France?\",\n      \"score\": 4\n    },\n    {\n      \"type\": \"SINGLE_CHOICE\",\n      \"question\": \"Who wrote 'Romeo and Juliet'?\",\n      \"score\": 8,\n      \"answer\": 3,\n      \"hasOtherOption\": false,\n      \"options\": [\n        \"Charles Dickens\",\n        \"Jane Austen\",\n        \"Mark Twain\",\n        \"William Shakespeare\"\n      ]\n    },\n    {\n      \"type\": \"MULTIPLE_CHOICE\",\n      \"question\": \"Which elements are gases at room temperature?\",\n      \"score\": 8,\n      \"answers\": [\n        0,\n        2\n      ],\n      \"hasOtherOption\": true,\n      \"options\": [\n        \"Hydrogen\",\n        \"Iron\",\n        \"Oxygen\",\n        \"Carbon\"\n      ]\n    }\n  ],\n  \"id\": 18270\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/quiz"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete quiz",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{tokenTeacher}}"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/quiz/:{{quizToDelete}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"quiz",
+								":{{quizToDelete}}"
+							],
+							"variable": [
+								{
+									"key": "{{quizToDelete}}",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sing in as Student",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseData = pm.response.json();",
+									"",
+									"var tokenStudent = responseData.token;",
+									"",
+									"pm.environment.set(\"tokenStudent\", tokenStudent);",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{tokenTeacher}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"vetla65@hulilolo.cfd\",\n  \"password\": \"123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/sign-in"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User API (Teachers only)",
+			"item": [
+				{
+					"name": "Get all users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"function getRandomInt(min, max) {",
+									"  min = Math.ceil(min);",
+									"  max = Math.floor(max);",
+									"  return Math.floor(Math.random() * (max - min + 1)) + min;",
+									"}",
+									"",
+									"var randomNumber = getRandomInt(0, 183);",
+									"let sp = pm.response.json()",
+									"",
+									"",
+									"",
+									"var responseData = sp[getRandomInt(0, sp.length)];",
+									"",
+									"var userToChangeNameOrGroup = responseData.id;",
+									"",
+									"pm.environment.set(\"userToChangeNameOrGroup\", userToChangeNameOrGroup);",
+									"",
+									"pm.environment.set(\"newUserId\", sp[sp.length-1].id)",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{tokenTeacher}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{baseUrl}}/users"
+					},
+					"response": []
+				},
+				{
+					"name": "Change user name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{tokenTeacher}}"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Joly Bell\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users/change-name/:{{userToChangeNameOrGroup}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"change-name",
+								":{{userToChangeNameOrGroup}}"
+							],
+							"variable": [
+								{
+									"key": "{{userToChangeNameOrGroup}}",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change user group",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{tokenTeacher}}"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"group\": \"N001\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users/change-group/:{{userToChangeNameOrGroup}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"change-group",
+								":{{userToChangeNameOrGroup}}"
+							],
+							"variable": [
+								{
+									"key": "{{userToChangeNameOrGroup}}",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change user role",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{tokenTeacher}}"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"role\": \"STUDENT\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users/change-role/:{{userToChangeNameOrGroup}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"change-role",
+								":{{userToChangeNameOrGroup}}"
+							],
+							"variable": [
+								{
+									"key": "{{userToChangeNameOrGroup}}",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{tokenTeacher}}"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/users/:{{userToChangeNameOrGroup}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								":{{userToChangeNameOrGroup}}"
+							],
+							"variable": [
+								{
+									"key": "{{userToChangeNameOrGroup}}",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Settings API",
+			"item": [
+				{
+					"name": "Change user name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{tokenTeacher}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"newName\": \"Joly Wonka\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/settings/change-name"
+					},
+					"response": []
+				},
+				{
+					"name": "Change user password",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{tokenTeacher}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"password\": \"mynewpassword\",\n  \"newPassword\": \"eXxnX53YDVbCnBW\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/settings/change-password"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Assignment API (Teachers only)",
+			"item": [
+				{
+					"name": "Get all assignments",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{tokenTeacher}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{baseUrl}}/assignments"
+					},
+					"response": []
+				},
+				{
+					"name": "Create new assignment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let responseData = pm.response.json();",
+									"let newAssignment = responseData[0].assignmentGroupID;",
+									"pm.environment.set(\"newAssignment\", newAssignment);",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{tokenTeacher}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"quizId\": 18289,\n  \"userIds\": [8729, 9675, 10013]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/assignment"
+					},
+					"response": []
+				},
+				{
+					"name": "Grade assignment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{tokenTeacher}}"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"summary\": \"GOOD\",\n  \"result\": \"PASSED\",\n  \"grades\": [\n    {\n      \"comment\": \"Teacher comment\",\n      \"additionalScore\": 5\n    }\n  ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/assignment/:{{newAssignment}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"assignment",
+								":{{newAssignment}}"
+							],
+							"variable": [
+								{
+									"key": "{{newAssignment}}",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete group of assignments",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{tokenTeacher}}"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/assignment/:{{newAssignment}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"assignment",
+								":{{newAssignment}}"
+							],
+							"variable": [
+								{
+									"key": "{{newAssignment}}",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Student API (Students only)",
+			"item": [
+				{
+					"name": "Get the list of all assignments that need to be completed",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{tokenStudent}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{baseUrl}}/my-assignments"
+					},
+					"response": []
+				},
+				{
+					"name": "Submit assignment's result",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{tokenStudent}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"assignmentId\": 22764,\n  \"answers\": [\n    {\n      \"answer\": [1] // Желтый цвет банана\n    },\n    {\n      \"answer\": [1] // Зеленый цвет брокколи\n    },\n    {\n      \"answer\": [1] // Красный цвет вишни\n    },\n    {\n      \"answer\": [1, 3, 5] // Красные, зеленые и желтые яблоки\n    },\n    {\n      \"textAnswer\": \"Лимон\" // Цитрусовый фрукт, кислый и желтый\n    }\n  ]\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/submit-assignment"
+					},
+					"response": []
+				},
+				{
+					"name": "Return list of all submitted/graded assignments",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{tokenStudent}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{baseUrl}}/my-grades"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Authorization API",
+			"item": [
+				{
+					"name": "Sign in user into application",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{tokenTeacher}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"vetla65@hulilolo.cfd\",\n  \"password\": \"123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/sign-in"
+					},
+					"response": []
+				},
+				{
+					"name": "Create new user with STUDENT permission and send verification email",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{tokenTeacher}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"astro@nasa.com\",\n  \"name\": \"Dart Waider\",\n  \"password\": \"Death Star\",\n  \"group\": \"Sugar\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/sign-up"
+					},
+					"response": []
+				},
+				{
+					"name": "Activate account after creation",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{tokenTeacher}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/activate/:{{newUserId}}/f5e2fdbb9dba1cea467748051568004cefa8e0fc",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"activate",
+								":{{newUserId}}",
+								"f5e2fdbb9dba1cea467748051568004cefa8e0fc"
+							],
+							"variable": [
+								{
+									"key": "{{newUserId}}",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Submit request for password change",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{tokenTeacher}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"vetla65@hulilolo.cfd\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/forgot-password"
+					},
+					"response": []
+				},
+				{
+					"name": "Reset password after /forgot-password success",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"password\": \"123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/reset-password/{{newUserId}}/b89ea1b18d0a3e612090a22aad44a57ebc4ac69a"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "teacherEmail",
+			"value": "gilson861@giulieano.xyz",
+			"type": "string"
+		},
+		{
+			"key": "teacherPassword",
+			"value": "eXxnX53YDVbCnBW",
+			"type": "string"
+		}
+	]
+}
